@@ -1,20 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/head.ejs') %> <!-- Using '-' to avoid escaping HTML [11] -->
+<!-- Include the head partial as done in other views -->
+<%- include("./partials/head.ejs") %> 
+
 <body>
-  <%- include('./partials/nav.ejs') %>
+  <!-- Include the navigation partial -->
+  <%- include("./partials/nav.ejs") %> 
 
   <div class="blogs content">
     <h2>All Blogs</h2>
+
+    <!-- Check if there are blogs to display and loop through them -->
     <% if (blogs.length > 0) { %>
       <% blogs.forEach(blog => { %>
-        <h3 class="title"><%= blog.title %></h3>
-        <p class="snippet"><%= blog.snippet %></p>
+        <!-- Surround the h3 and paragraph with an anchor tag for the details link -->
+        <a class="single" href="/blogs/<%= blog._id %>">
+          <h3><%= blog.title %></h3>
+          <p><%= blog.snippet %></p>
+        </a>
       <% }) %>
     <% } else { %>
-      <p>There are no blogs to display</p>
+      <p>There are no blogs to display...</p>
     <% } %>
   </div>
 
-  <%- include('./partials/footer.ejs') %>
+  <!-- Include the footer partial -->
+  <%- include("./partials/footer.ejs") %> 
 </body>
 </html>

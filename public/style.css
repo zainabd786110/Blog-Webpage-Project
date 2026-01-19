@@ -1,5 +1,7 @@
- @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
-    body { max-width: 1200px; margin: 20px auto; font-family: 'Noto Serif', serif; }
+    body {
+         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+
+         max-width: 1200px; margin: 20px auto; font-family: 'Noto Serif', serif; }
     p, h1, h2, h3, a { margin: 0; padding: 0; text-decoration: none; color: #444; }
     nav { display: flex; justify-content: space-between; margin-bottom: 60px; border-bottom: 1px solid #ddd; text-transform: uppercase; }
     nav ul { display: flex; justify-content: space-between; align-items: flex-end; list-style-type: none; }
@@ -11,3 +13,12 @@
     .create-blog input, .create-blog textarea { display: block; width: 100%; margin: 10px 0; padding: 8px; }
     .create-blog label { display: block; margin-top: 24px; }
     button { margin-top: 20px; background: crimson; color: white; padding: 6px; border: 0; font-size: 1.2em; cursor: pointer; }
+.blogs a {
+  display: block;
+  margin: 20px 0;
+  padding-left: 30px;
+  border-left: 8px solid crimson; [21]
+}
+.blogs a:hover h3 {
+  color: crimson; [21]
+}

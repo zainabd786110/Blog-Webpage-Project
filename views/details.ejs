@@ -1,0 +1,23 @@
+<div class="details content">
+  <h2><%= blog.title %></h2>
+  <div class="content">
+    <p><%= blog.body %></p>
+  </div>
+  <!-- Data attribute stores the ID for the JS to grab -->
+  <a class="delete" data-doc="<%= blog._id %>">delete</a> [18]
+</div>
+
+<script>
+  const trashcan = document.querySelector('a.delete'); [17]
+
+  trashcan.addEventListener('click', (e) => {
+    const endpoint = `/blogs/${trashcan.dataset.doc}`; [2]
+
+    fetch(endpoint, {
+      method: 'DELETE', [2]
+    })
+    .then(response => response.json()) [16]
+    .then(data => window.location.href = data.redirect) [19, 20]
+    .catch(err => console.log(err));
+  });
+</script>
