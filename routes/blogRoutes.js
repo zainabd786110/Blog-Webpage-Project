@@ -1,13 +1,13 @@
 const express = require('express');
-const router = express.Router(); // Create a new instance of a router object [1]
-const blogController = require('../controllers/blogController'); // Import the controller [7]
+const blogController = require('../controller/blogController');
 
-// Map routes to controller functions [7]
-// Note: We don't use '/blogs' here because it's already scoped in app.js [8]
-router.get('/', blogController.blog_index); 
-router.post('/', blogController.blog_create_post); 
-router.get('/create', blogController.blog_create_get); // This must be above /:id [10, 11]
-router.get('/:id', blogController.blog_details); 
-router.delete('/:id', blogController.blog_delete); 
+const router = express.Router();
 
-module.exports = router; // Export the router for use in app.js
+// Routes are now relative (no /blogs prefix here, since app.use('/blogs', blogRoutes) adds it)
+router.get('/', blogController.blog_index);  // Becomes /blogs
+router.get('/create', blogController.blog_create_get);  // Becomes /blogs/create
+router.post('/', blogController.blog_create_post);  // Becomes /blogs (POST)
+router.get('/:id', blogController.blog_details);  // Becomes /blogs/:id
+router.delete('/:id', blogController.blog_delete);  // Becomes /blogs/:id (DELETE)
+
+module.exports = router;

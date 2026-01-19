@@ -1,23 +1,36 @@
-<div class="details content">
-  <h2><%= blog.title %></h2>
-  <div class="content">
-    <p><%= blog.body %></p>
+<html lang="en">
+  <%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <div class="page-wrapper">
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <p><%= blog.body %></p>
+      </div>
+      <a class="delete" data-doc="<%= blog._id %>">
+        Delete
+      </a>
+    </div>
   </div>
-  <!-- Data attribute stores the ID for the JS to grab -->
-  <a class="delete" data-doc="<%= blog._id %>">delete</a> 
-</div>
 
-<script>
-  const trashcan = document.querySelector('a.delete'); 
+  <%- include("../partials/footer.ejs") %>
 
-  trashcan.addEventListener('click', (e) => {
-    const endpoint = `/blogs/${trashcan.dataset.doc}`; 
+  <script>
+    const trashcan = document.querySelector('a.delete');
 
-    fetch(endpoint, {
-      method: 'DELETE', 
-    })
-    .then(response => response.json()) 
-    .then(data => window.location.href = data.redirect) 
-    .catch(err => console.log(err));
-  });
-</script>
+    trashcan.addEventListener('click', (e) => {
+      const endpoint = `/blogs/${trashcan.dataset.doc}`;
+
+      fetch(endpoint, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.log(err));
+    });
+  </script>
+</body>
+</html>
