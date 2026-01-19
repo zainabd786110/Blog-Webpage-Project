@@ -1,38 +1,69 @@
-const express = require('express');
-const morgan = require('morgan');
+const express = require('express'); // Note: Express setup is implied from previous tutorials [12]
+const mongoose = require('mongoose'); 
+const Blog = require('./models/blog'); 
 
+// Express app setup (implied from conversation history/source context)
 const app = express();
 
-// Register view engine (not fully detailed in source, but implied for templates)
-app.set('view engine', 'ejs');
+// Connection string to MongoDB Atlas [4]
+const dbURI = 'mongodb+srv://netninja:test1234@cluster0.mongodb.net/node-tuts?retryWrites=true&w=majority'; [3, 4]
 
-// Middleware & static files
-// This makes everything inside the 'public' folder accessible to the browser [4]
-app.use(express.static('public')); 
+// Connect to MongoDB using Mongoose [3]
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true }) 
+  .then((result) => app.listen(3000)) // Only listen for requests once connection is established [5, 14]
+  .catch((err) => console.log(err)); [14]
 
-// Using third-party middleware (Morgan) for logging [6]
-app.use(morgan('dev')); 
+// --- Sandbox Routes (For Testing) --- [13]
 
-// Custom middleware example (Logger) [7, 8]
-app.use((req, res, next) => {
-  console.log('new request was made:');
-  console.log('host: ', req.hostname);
-  console.log('path: ', req.path);
-  console.log('method: ', req.method);
-  next(); // This tells Express to move to the next middleware [8, 9]
+app.get('/add-blog', (req, res) => {
+  const blog = new Blog({
+    title: 'new blog 2',
+    snippet: 'about my new blog',
+    body: 'more about my new blog'
+  }); 
+
+  blog.save() 
+    .then((result) => {
+      res.send(result); 
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
 });
 
-// Route handlers [10, 11]
+app.get('/all-blogs', (req, res) => {
+  Blog.find() 
+    .then((result) => {
+      res.send(result); 
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
+});
+
+app.get('/single-blog', (req, res) => {
+  Blog.findById('5ea99b4d1c9d440000a0f022') 
+    .then((result) => {
+      res.send(result); 
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
+});
+
+// --- Main Blog Routes --- [11]
+
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home' });
+  res.redirect('/blogs'); 
 });
 
-app.get('/about', (req, res) => {
-  res.render('about', { title: 'About' });
-});
-
-// 404 page (Catch-all middleware)
-// This must be at the bottom of the code [7]
-app.use((req, res) => {
-  res.status(404).render('404', { title: '404' });
+app.get('/blogs', (req, res) => {
+  // Find all blogs and sort by newest first (-1) [20, 21]
+  Blog.find().sort({ createdAt: -1 }) 
+    .then((result) => {
+      res.render('index', { title: 'All Blogs', blogs: result }); 
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
 });
