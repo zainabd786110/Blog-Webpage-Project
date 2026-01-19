@@ -1,24 +1,337 @@
-    body {
-         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Serif:wght@400;700&display=swap');
 
-         max-width: 1200px; margin: 20px auto; font-family: 'Noto Serif', serif; }
-    p, h1, h2, h3, a { margin: 0; padding: 0; text-decoration: none; color: #444; }
-    nav { display: flex; justify-content: space-between; margin-bottom: 60px; border-bottom: 1px solid #ddd; text-transform: uppercase; }
-    nav ul { display: flex; justify-content: space-between; align-items: flex-end; list-style-type: none; }
-    nav li { margin-left: 20px; }
-    footer { color: #777; text-align: center; margin: 80px auto 20px; }
-    .content { margin-left: 20px; }
-    /* Form styles for create.ejs [4] */
-    .create-blog form { max-width: 400px; margin: 0 auto; }
-    .create-blog input, .create-blog textarea { display: block; width: 100%; margin: 10px 0; padding: 8px; }
-    .create-blog label { display: block; margin-top: 24px; }
-    button { margin-top: 20px; background: crimson; color: white; padding: 6px; border: 0; font-size: 1.2em; cursor: pointer; }
-.blogs a {
-  display: block;
-  margin: 20px 0;
-  padding-left: 30px;
-  border-left: 8px solid crimson; 
+body {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+  font-family: 'Noto Serif', serif; /* Serif for body for elegance */
+  background: #ffffff; /* Pure white for high contrast and minimalism */
+  color: #1a1a1a; /* Deep charcoal for strong readability */
+  line-height: 1.7; /* Spacious for cool, readable flow */
+  animation: fadeIn 0.8s ease-in; /* Subtle fade-in for cool entry */
 }
-.blogs a:hover h3 {
-  color: crimson; 
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+p, h1, h2, h3, a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: #1a1a1a; /* Consistent deep color */
+}
+
+a:hover {
+  color: #007bff; /* Vibrant blue accent for contrast */
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+  padding: 30px 0;
+  border-bottom: 1px solid #e0e0e0; /* Minimal border */
+  text-transform: uppercase;
+  background: transparent;
+  font-family: 'Inter', sans-serif; /* Sans-serif for modern nav */
+  font-size: 0.9em;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin-left: 40px; /* More spacing for minimal layout */
+}
+
+nav a {
+  color: #007bff; /* Accent for links */
+  font-weight: 600;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+  color: #0056b3; /* Darker blue */
+  transform: translateY(-2px); /* Cool lift */
+}
+
+nav .site-title h1 {
+  font-family: 'Inter', sans-serif; /* Sans-serif for headings */
+  font-size: 2em;
+  color: #007bff;
+  font-weight: 700;
+}
+
+nav p {
+  color: #666666;
+  font-weight: 400;
+  font-size: 0.85em;
+}
+
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5em;
+  color: #007bff;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+h2 {
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 40px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+h3 {
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.page-wrapper {
+  min-height: 60vh; /* Ensures content fills space minimally */
+}
+
+.content {
+  margin-left: 0; /* Centered for minimalism */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.details {
+  position: relative; /* Needed for absolute positioning of delete */
+  background: #ffffff;
+  border: 1px solid #f0f0f0; /* Subtle border */
+  border-radius: 12px; /* Soft, cool rounding */
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Minimal shadow */
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.details:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px); /* Cool hover lift */
+}
+
+/* Updated delete button: Positioned outside the .details box (above it) for no overlap with title */
+.delete {
+  position: absolute;
+  top: -30px; /* Places it just above the .details box, outside */
+  right: 0; /* Aligns to the right edge of .details */
+  border-radius: 8px; /* Soft corners for aesthetic, button-like look */
+  padding: 8px 12px; /* Compact padding for a floating button */
+  background: #007bff; /* Solid blue for minimal coolness */
+  color: #ffffff;
+  border: 1px solid #007bff; /* Subtle border for definition */
+  font-size: 12px; /* Smaller for subtle floating feel */
+  line-height: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase; /* Sleek, bold feel */
+  letter-spacing: 0.5px; /* Cool spacing */
+  z-index: 10; /* Ensures it floats above other elements */
+}
+
+.delete:hover {
+  background: #dcdfe2; /* Darker blue on hover */
+  transform: scale(1.05); /* Subtle scale for interaction */
+  box-shadow: 0 4px 12px rgba(75, 123, 195, 0.3); /* Cool glow */
+}
+
+footer {
+  color: #666666;
+  text-align: center;
+  margin-top: 100px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 50px;
+  font-size: 0.9em;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Blog list styles */
+.blogs .single {
+  display: block;
+  background: #f8f9fa; /* Light gray for contrast */
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.blogs .single:hover {
+  background: #e9ecef;
+  transform: translateY(-3px); /* Cool interaction */
+}
+
+.blogs .title {
+  color: #007bff;
+  margin-bottom: 8px;
+}
+
+.blogs .snippet {
+  color: #666666;
+}
+
+/* About page styles: Aesthetic, blog-like intro */
+.about {
+  text-align: center; /* Centered for welcoming feel */
+  background: #f8f9fa; /* Subtle light background for a card-like section */
+  border-radius: 12px; /* Soft rounding for coolness */
+  padding: 60px 40px; /* Generous padding for breathing room */
+  margin-bottom: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Minimal shadow */
+  animation: fadeIn 1s ease-in; /* Cool fade-in for the page */
+}
+
+.about h2 {
+  font-size: 2.5em; /* Larger for emphasis */
+  margin-bottom: 30px;
+  color: #007bff; /* Accent color */
+  font-weight: 700;
+}
+
+.about p {
+  font-size: 1.1em; /* Slightly larger for readability */
+  margin-bottom: 20px;
+  text-indent: 20px; /* Indented for blog-style paragraphs */
+  color: #333333; /* Slightly lighter than body for hierarchy */
+  max-width: 600px; /* Constrain width for focus */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about p:last-child {
+  margin-bottom: 0; /* Remove margin on last paragraph */
+}
+
+/* Create blog styles */
+.create-blog form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.create-blog input, .create-blog textarea {
+  display: block;
+  width: 100%;
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Noto Serif', serif;
+  background: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.create-blog input:focus, .create-blog textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1); /* Cool focus glow */
+}
+
+.create-blog label {
+  display: block;
+  margin-top: 30px;
+  color: #007bff;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.create-blog textarea {
+  height: 160px;
+  resize: vertical;
+}
+
+.create-blog button {
+  background: #007bff; /* Solid, vibrant blue for minimal coolness */
+  color: #ffffff;
+  padding: 16px 32px;
+  border: 2px solid #007bff; /* Subtle border for definition */
+  border-radius: 50px; /* Pill shape for modern, cool edge */
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transitions for everything */
+  margin-top: 30px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase; /* Adds a sleek, bold feel */
+  letter-spacing: 0.5px; /* Cool spacing for typography */
+}
+
+.create-blog button:hover {
+  background: #ffffff; /* Invert to white on hover for contrast */
+  color: #007bff; /* Text changes to blue */
+  transform: scale(1.05); /* Subtle scale for cool interaction */
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.3); /* Cool glow effect */
+}
+
+.create-blog button:active {
+  transform: scale(0.98); /* Pressed effect for feedback */
+}
+
+/* 404 page */
+.not-found {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.not-found h2 {
+  font-size: 3em;
+  color: #007bff;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  body {
+    margin: 20px auto;
+    padding: 0 10px;
+  }
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+  nav li {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+  .content {
+    padding: 0 10px;
+  }
+  .create-blog form {
+    max-width: 100%;
+    padding: 20px;
+  }
+  .details {
+    padding: 20px;
+  }
+  .delete {
+    top: -25px; /* Slightly less offset on mobile for better fit */
+    right: 10px; /* Adjust for padding */
+    padding: 6px 10px; /* Smaller on mobile */
+    font-size: 11px;
+  }
+  .about {
+    padding: 40px 20px; /* Less padding on mobile */
+  }
+  .about h2 {
+    font-size: 2em; /* Smaller on mobile */
+  }
 }
