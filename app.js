@@ -1,27 +1,38 @@
 const express = require('express');
+const morgan = require('morgan');
 
-// express app
-const app = express(); 
+const app = express();
 
-// listen for requests
-app.listen(3000); 
+// Register view engine (not fully detailed in source, but implied for templates)
+app.set('view engine', 'ejs');
 
+// Middleware & static files
+// This makes everything inside the 'public' folder accessible to the browser [4]
+app.use(express.static('public')); 
+
+// Using third-party middleware (Morgan) for logging [6]
+app.use(morgan('dev')); 
+
+// Custom middleware example (Logger) [7, 8]
+app.use((req, res, next) => {
+  console.log('new request was made:');
+  console.log('host: ', req.hostname);
+  console.log('path: ', req.path);
+  console.log('method: ', req.method);
+  next(); // This tells Express to move to the next middleware [8, 9]
+});
+
+// Route handlers [10, 11]
 app.get('/', (req, res) => {
-  // res.send('<p>homepage</p>'); 
-  res.sendFile('./views/index.html', { root: __dirname }); 
-}); [5, 7]
+  res.render('index', { title: 'Home' });
+});
 
 app.get('/about', (req, res) => {
-  // res.send('<p>about page</p>'); 
-  res.sendFile('./views/about.html', { root: __dirname });
-}); [6, 8]
+  res.render('about', { title: 'About' });
+});
 
-// redirects
-app.get('/about-us', (req, res) => {
-  res.redirect('/about'); 
-}); 
-
-// 404 page
+// 404 page (Catch-all middleware)
+// This must be at the bottom of the code [7]
 app.use((req, res) => {
-  res.status(404).sendFile('./views/404.html', { root: __dirname }); 
-}); 
+  res.status(404).render('404', { title: '404' });
+});
